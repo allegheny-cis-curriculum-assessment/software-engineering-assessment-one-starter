@@ -1,4 +1,4 @@
-"""An assessment for the Data Structures course."""
+"""An assessment for the Software Engineering course."""
 
 # TODO: The imports in the following source code block no longer
 # adhere to the industry best practices for Python source code.

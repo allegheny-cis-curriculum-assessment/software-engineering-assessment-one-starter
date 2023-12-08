@@ -1,0 +1,184 @@
+setup: |
+  echo "🐊 Attempt to install ruff"
+  echo "🐊 Will not re-install if already installed"
+  pipx install ruff
+  pipx install mypy
+  pipx install symbex
+---
+
+# Assessment of Honor Code {{{
+
+- README.md:
+    - description: Ensure that the README.md file exists inside of the root of the GitHub repository
+      check: ConfirmFileExists
+    - description: Delete the phrase 'Add Your Name Here' and add your own name as an Honor Code pledge in README.md
+      check: MatchFileFragment
+      objectives: "LO1"
+      options:
+        fragment: "Add Your Name Here"
+        count: 0
+        exact: true
+    - description: Retype the every word in the Honor Code pledge in README.md
+      check: MatchFileFragment
+      objectives: "LO1"
+      options:
+        fragment: "I adhered to the Allegheny College Honor Code while completing this assessment."
+        count: 2
+        exact: true
+
+# }}}
+
+# Assessment of Basic Program Characteristics {{{
+
+# perform checks on the assessment.py file
+- source/assessment.py:
+    # --> file exists in the correct directory
+    - description: Ensure that assessment.py file exists in the source/ directory
+      check: ConfirmFileExists
+      objectives: "LO1"
+    # --> no remaining TODO markers in the source code
+    - description: Complete all TODOs, remove the TODO markers, and rewrite comments for assessment.py
+      check: MatchFileFragment
+      objectives: "LO1"
+      options:
+        fragment: TODO
+        count: 0
+        exact: true
+    # --> contains suitable number of docstring comments for both module and the function (note, differs from symbex)
+    - description: Create a sufficient number of docstring (i.e., multiple-line) comments in assessment.py
+      check: CountMultipleLineComments
+      objectives: "LO1"
+      options:
+        language: "Python"
+        count: 8
+        exact: true
+    # --> contains the correct call to the random number generator, kinda like done during property-based testing
+    - description: Correctly invoke the random.randint function provided by the random package for part two in assessment.py
+      check: MatchFileFragment
+      objectives: "LO4"
+      options:
+        fragment: "random.randint(0, 100)"
+        count: 1
+        exact: true
+    # --> function definition contains precisely the correct type annotations
+    - description: Provide a type annotation the input and output of part three in assessment.py
+      check: MatchFileFragment
+      objectives: "LO4"
+      options:
+        fragment: "def count_columns(records: List[List[str]]) -> int:"
+        count: 1
+        exact: true
+
+# }}}
+
+# Assessment Based on Program Output {{{
+
+# run the program and confirm the existence of fragments in its output
+- description: "Run a program and confirm the correct number of non-blank lines in the output when running the assessment.py program"
+  check: CountCommandOutput
+  objectives: "LO1"
+  options:
+    command: "python source/assessment.py"
+    count: 5
+    exact: true
+
+# run the program and confirm the existence of fragments in its output
+- description: "Run the program and confirm the existence of correct output for part one of the assessment"
+  check: MatchCommandFragment
+  objectives: "LO1"
+  options:
+    command: "python source/assessment.py"
+    fragment: "100 / 5 / True"
+    count: 1
+    exact: true
+
+# run the program and confirm the existence of fragments in its output
+- description: "Run the program and confirm the existence of correct output for part two of the assessment"
+  check: MatchCommandFragment
+  objectives: "LO1"
+  options:
+    command: "python source/assessment.py"
+    fragment: "3 / 2 / 2 / 1 / 0 / 5 / True"
+    count: 1
+    exact: true
+
+# run the program and confirm the existence of fragments in its output
+- description: "Run the program and confirm the existence of correct output for part three of the assessment"
+  check: MatchCommandFragment
+  objectives: "LO1"
+  options:
+    command: "python source/assessment.py"
+    fragment: "4 / 3 / 2 / 1 / 0 / True"
+    count: 1
+    exact: true
+
+# run the program and confirm the existence of fragments in its output
+- description: "Run the program and confirm the existence of correct output for part four of the assessment"
+  check: MatchCommandFragment
+  objectives: "LO1"
+  options:
+    command: "python source/assessment.py"
+    fragment: "3 / 36 / True / True"
+    count: 1
+    exact: true
+
+# run the program and confirm the existence of fragments in its output
+- description: "Run the program and confirm the existence of correct output for part five of the assessment"
+  check: MatchCommandFragment
+  objectives: "LO1"
+  options:
+    command: "python source/assessment.py"
+    fragment: "('2', 2) / ('Pharmacist, hospital', 3) / True"
+    count: 1
+    exact: true
+
+# }}}
+
+# Assessment Based on Program Analysis with Software Engineering Tools {{{
+
+# run a command: ruff check with default settings found in .ruff.toml file
+- description: Ensure that the source code follows an industry-standard programming rules using the command 'ruff check'
+  objectives: "LO4"
+  command: ruff check source/assessment.py
+
+# run a command: ruff format with default settings found in .ruff.toml file
+- description: Ensure that the source code adheres to an industry-standard format using the command 'ruff format'
+  objectives: "LO4"
+  command: ruff format source/assessment.py --check
+
+# run a command: mypy with the default settings to confirm type alignment for all functions
+- description: Ensure that the source code has correct type annotations using the command 'mypy'
+  objectives: "LO4"
+  command: ruff format source/assessment.py --check
+
+# run symbex: count functions with full type annotations
+- description: Ensure that the source code has correct number of fully type annotated functions using the command 'symbex'
+  check: MatchCommandFragment
+  objectives: "LO4"
+  options:
+    command: "symbex -s --fully-typed -f source/assessment.py --count"
+    fragment: 6
+    count: 1
+    exact: true
+
+# run symbex: count functions with docstring-based documentation (note: does not count module docstring)
+- description: Ensure that the source code has correct number of documented functions using the command 'symbex'
+  check: MatchCommandFragment
+  objectives: "LO4"
+  options:
+    command: "symbex -s --documented -f source/assessment.py --count"
+    fragment: 7
+    count: 1
+    exact: true
+
+# run symbex: confirm that there are no functions that are undocument (i.e., do not have a docstring)
+- description: Ensure that the source code has no undocumented functions using the command 'symbex'
+  check: MatchCommandFragment
+  objectives: "LO4"
+  options:
+    command: "symbex -s --undocumented -f source/assessment.py --count"
+    fragment: 0
+    count: 1
+    exact: true
+
+# }}}

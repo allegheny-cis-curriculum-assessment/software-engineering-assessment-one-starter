@@ -149,7 +149,7 @@ setup: |
 # run a command: mypy with the default settings to confirm type alignment for all functions
 - description: Ensure that the source code has correct type annotations using the command 'mypy'
   objectives: "LO4"
-  command: ruff format source/assessment.py --check
+  command: mypy source/assessment.py
 
 # run symbex: count functions with full type annotations
 - description: Ensure that the source code has correct number of fully type annotated functions using the command 'symbex'

@@ -38,7 +38,7 @@ file before starting the assessment.
 
 ## 😁 TODO: Add Your Name Here
 
-TODO: You must delete `Student Name` and add your name to the subsection header
+TODO: You must delete the phrase after the prompt and add your name to the subsection header
 
 ## 🚧 Honor Code
 

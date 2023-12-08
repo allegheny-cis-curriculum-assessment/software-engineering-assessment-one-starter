@@ -1,5 +1,5 @@
 setup: |
-  echo "🐊 Attempt to install ruff"
+  echo "🐊 Attempt to install software engineering tools"
   echo "🐊 Will not re-install if already installed"
   pipx install ruff
   pipx install mypy
